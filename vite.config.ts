@@ -1,13 +1,26 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+import fs from 'fs'
 import path from 'path'
-import { defineConfig } from 'vite'
-import svgr from 'vite-plugin-svgr'
+import { defineConfig, type Plugin } from 'vite'
 
-// https://vite.dev/config/
+function spaFallback(): Plugin {
+  return {
+    name: 'spa-fallback-404',
+    closeBundle() {
+      const dist = path.resolve(__dirname, 'dist')
+      const index = path.join(dist, 'index.html')
+      const fallback = path.join(dist, '404.html')
+      if (fs.existsSync(index)) {
+        fs.copyFileSync(index, fallback)
+      }
+    }
+  }
+}
+
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/roc-pont/' : '/',
-  plugins: [svgr(), react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), spaFallback()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')

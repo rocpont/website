@@ -1,22 +1,18 @@
+import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/ui/Layout'
+import Info from './pages/Info'
+import Personal from './pages/Personal'
+import Projectes from './pages/Projectes'
 
-function App() {
+export default function App() {
   return (
     <Layout>
-      <div className="flex gap-1 max-w-3xl">
-        <img
-          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=700&fit=crop"
-          alt="Commercial work — lamp on wall"
-          className="h-[50vh] w-auto object-cover"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500&h=700&fit=crop"
-          alt="Commercial work — interior with bookshelf"
-          className="h-[50vh] w-auto object-cover"
-        />
-      </div>
+      <Routes>
+        <Route path="/" element={<Projectes />} />
+        <Route path="/projectes" element={<Projectes />} />
+        <Route path="/personal" element={<Personal />} />
+        <Route path="/info" element={<Info />} />
+      </Routes>
     </Layout>
   )
 }
-
-export default App
